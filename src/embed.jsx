@@ -47,9 +47,18 @@ const ChatbotWidget = { init: mount, destroy };
 if (typeof window !== 'undefined') {
   window.ChatbotWidget = ChatbotWidget;
 
-  // Optional zero-JS-call convenience: a site can define
-  //   <script>window.ChatbotWidgetConfig = { companyId: '...', webhookUrl: '...' };</script>
-  // before loading this file, and it will auto-init.
+  const script = document.currentScript;
+
+  if (script) {
+    const companyId = script.getAttribute('data-company-id');
+
+    if (companyId) {
+      mount({
+        companyId,
+      });
+    }
+  }
+
   if (window.ChatbotWidgetConfig) {
     mount(window.ChatbotWidgetConfig);
   }

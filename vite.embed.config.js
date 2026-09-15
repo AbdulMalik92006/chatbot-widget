@@ -12,6 +12,9 @@ import path from 'path';
 //   </script>
 export default defineConfig({
   plugins: [react()],
+  define: {
+  'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   build: {
     outDir: 'dist-embed',
     emptyOutDir: true,

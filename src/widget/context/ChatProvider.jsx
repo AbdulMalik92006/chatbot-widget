@@ -9,6 +9,7 @@ const ChatContext = createContext(null);
 
 export function ChatProvider({ config: userConfig = {}, children }) {
     const [companySettings, setCompanySettings] = useState(null);
+  const [isLoadingSettings, setIsLoadingSettings] = useState(true);
     const config = useMemo(
     () => ({
       ...defaultConfig,
@@ -39,6 +40,7 @@ export function ChatProvider({ config: userConfig = {}, children }) {
       if (data) {
         setCompanySettings(data);
       }
+      setIsLoadingSettings(false);
     }
 
     loadCompanySettings();
@@ -67,7 +69,11 @@ export function ChatProvider({ config: userConfig = {}, children }) {
     resetConversation,
   };
 
-  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
+  if (isLoadingSettings) {
+  return null;
+}
+
+return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }
 
 export function useChatContext() {
